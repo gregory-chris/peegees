@@ -1,0 +1,16 @@
+{
+    "name": "PeeGees - PostgreSQL Course",
+    "short_name": "PeeGees",
+    "description": "PostgreSQL Course for Experienced Developers",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#0ea5e9",
+    "icons": [
+      {
+        "src": "/images/peegees_logo.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  }
