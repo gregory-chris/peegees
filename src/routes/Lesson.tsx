@@ -107,7 +107,7 @@ export default function Lesson() {
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-8">
-            {/* Lesson Header */}
+            {/* Lesson Meta Info */}
             <div className="mb-8">
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
                 <span>Lesson {lesson.order}</span>
@@ -118,14 +118,6 @@ export default function Lesson() {
                   </>
                 )}
               </div>
-              
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                {lesson.title}
-              </h1>
-              
-              <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
-                {lesson.description}
-              </p>
             </div>
 
             {/* Content */}
