@@ -28,9 +28,11 @@ export default function SiteHeader({ className }: SiteHeaderProps) {
               className="flex items-center space-x-3 text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md px-2 py-1"
               aria-label="PostgreSQL Course - Home"
             >
-              <div className="w-8 h-8 bg-blue-600 dark:bg-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">PG</span>
-              </div>
+              <img 
+                src="/images/peegees_logo.png" 
+                alt="PeeGees Logo" 
+                className="w-12 h-12 rounded-lg object-contain"
+              />
               <span className="hidden sm:block">
                 PeeGees
               </span>
