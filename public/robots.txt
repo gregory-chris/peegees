@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block access to sensitive files
+Disallow: /content-manifest.json
+
+# Sitemap
+Sitemap: https://peegees.greq.me/sitemap.xml

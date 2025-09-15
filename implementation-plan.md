@@ -38,28 +38,28 @@ This document outlines the implementation strategy for building a high-performan
 **Goal**: Build foundational components and routing system.
 
 #### 2.1 Type Definitions
-- [ ] Create `src/types/content.d.ts` with TypeScript interfaces:
+- [V] Create `src/types/content.d.ts` with TypeScript interfaces:
   - ContentManifest
   - Lesson
   - Course
   - TOC headings
 
 #### 2.2 Routing Setup
-- [ ] Configure react-router-dom with routes:
+- [V] Configure react-router-dom with routes:
   - `/` (Home)
   - `/lesson/:slug` (Lesson)
   - `*` (NotFound)
-- [ ] Set up SSG route discovery from content manifest
-- [ ] Configure ssg.config.ts
+- [V] Set up SSG route discovery from content manifest
+- [V] Configure ssg.config.ts
 
 #### 2.3 Layout Components
-- [ ] `src/components/Layout/Container.tsx` - responsive container
-- [ ] `src/components/Layout/SiteHeader.tsx` - navigation header
-- [ ] `src/components/Layout/SiteFooter.tsx` - site footer
-- [ ] Main Layout component combining all layout pieces
+- [V] `src/components/Layout/Container.tsx` - responsive container
+- [V] `src/components/Layout/SiteHeader.tsx` - navigation header
+- [V] `src/components/Layout/SiteFooter.tsx` - site footer
+- [V] Main Layout component combining all layout pieces
 
 #### 2.4 Content Management
-- [ ] `src/lib/content.ts` - content fetching utilities:
+- [V] `src/lib/content.ts` - content fetching utilities:
   - Manifest loading with caching
   - Markdown file fetching
   - Error handling and retry logic
