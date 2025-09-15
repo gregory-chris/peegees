@@ -1,39 +1,17 @@
 import { Link, useLocation } from 'react-router-dom'
 import { 
-  SunIcon, 
-  MoonIcon, 
-  ComputerDesktopIcon,
   Bars3Icon,
   XMarkIcon 
 } from '@heroicons/react/24/outline'
 import { useState } from 'react'
-import { useTheme } from '../../contexts/ThemeContext'
-import { useContent } from '../../contexts/ContentContext'
 import Container from './Container'
 import type { SiteHeaderProps } from '../../types/content'
 
 export default function SiteHeader({ className }: SiteHeaderProps) {
-  const { theme, setTheme } = useTheme()
-  const { manifest } = useContent()
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const isHome = location.pathname === '/'
-
-  const themeIcon = {
-    light: SunIcon,
-    dark: MoonIcon,
-    system: ComputerDesktopIcon,
-  }
-
-  const ThemeIcon = themeIcon[theme]
-
-  const cycleTheme = () => {
-    const themes: Array<'light' | 'dark' | 'system'> = ['light', 'dark', 'system']
-    const currentIndex = themes.indexOf(theme)
-    const nextIndex = (currentIndex + 1) % themes.length
-    setTheme(themes[nextIndex])
-  }
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen)
@@ -54,7 +32,7 @@ export default function SiteHeader({ className }: SiteHeaderProps) {
                 <span className="text-white font-bold text-sm">PG</span>
               </div>
               <span className="hidden sm:block">
-                PeeGees{/* - {manifest?.course.title.replace('PostgreSQL Course for ', '') || 'PeeGees'}*/}
+                PeeGees
               </span>
               <span className="sm:hidden">PeeGees</span>
             </Link>
@@ -73,38 +51,11 @@ export default function SiteHeader({ className }: SiteHeaderProps) {
               >
                 All Lessons
               </Link>
-              
-              <a
-                href="#about"
-                className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md px-2 py-1"
-              >
-                About
-              </a>
             </nav>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={cycleTheme}
-              className="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
-              aria-label={`Switch to ${theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'} theme`}
-              title={`Current theme: ${theme}. Click to cycle through themes.`}
-            >
-              <ThemeIcon className="w-5 h-5" />
-            </button>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
-            {/* Theme Toggle Mobile */}
-            <button
-              onClick={cycleTheme}
-              className="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
-              aria-label={`Switch to ${theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'} theme`}
-            >
-              <ThemeIcon className="w-5 h-5" />
-            </button>
-
-            {/* Mobile Menu Toggle */}
+          <div className="md:hidden flex items-center">
             <button
               onClick={toggleMobileMenu}
               className="p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
@@ -135,14 +86,6 @@ export default function SiteHeader({ className }: SiteHeaderProps) {
               >
                 All Lessons
               </Link>
-              
-              <a
-                href="#about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md px-2 py-2"
-              >
-                About
-              </a>
             </nav>
           </div>
         )}
