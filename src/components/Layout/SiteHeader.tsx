@@ -54,7 +54,7 @@ export default function SiteHeader({ className }: SiteHeaderProps) {
                 <span className="text-white font-bold text-sm">PG</span>
               </div>
               <span className="hidden sm:block">
-                {manifest?.course.title.replace('PostgreSQL Course for ', '') || 'PeeGees'}
+                PeeGees{/* - {manifest?.course.title.replace('PostgreSQL Course for ', '') || 'PeeGees'}*/}
               </span>
               <span className="sm:hidden">PeeGees</span>
             </Link>

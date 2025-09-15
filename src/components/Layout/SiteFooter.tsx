@@ -19,7 +19,7 @@ export default function SiteFooter({ className }: SiteFooterProps) {
                 About This Course
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                {manifest?.course.description || 'A comprehensive PostgreSQL course for experienced developers.'}
+                {manifest?.course.description || 'A comprehensive PostgreSQL course.'}
               </p>
             </div>
 

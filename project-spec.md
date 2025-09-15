@@ -1,4 +1,4 @@
-# Project: PostgreSQL Course for Experienced Developers — Static Website
+# Project: PostgreSQL Course — Static Website
 
 ## 0) Goals & Non‑Goals
 
@@ -135,7 +135,7 @@ A JSON file that drives the homepage list, routing, and SSG.
 ```json
 {
   "course": {
-    "title": "PostgreSQL Course for Experienced Developers",
+    "title": "PostgreSQL Course",
     "tagline": "Hands-on, deep dives for engineers who already ship.",
     "description": "A 10-lesson, practical course covering Postgres internals, performance, and production patterns.",
     "coverImage": "/og/default.png"

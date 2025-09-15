@@ -149,7 +149,7 @@ export function generateMetaTags(seo: SEOMetadata) {
     { property: 'og:image', content: seo.ogImage },
     { property: 'og:url', content: seo.canonicalUrl },
     { property: 'og:type', content: seo.ogType || 'website' },
-    { property: 'og:site_name', content: 'PostgreSQL Course for Experienced Developers' },
+    { property: 'og:site_name', content: 'PostgreSQL Course' },
     
     // Twitter Card
     { name: 'twitter:card', content: seo.twitterCard || 'summary_large_image' },

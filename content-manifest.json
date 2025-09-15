@@ -1,6 +1,6 @@
 {
   "course": {
-    "title": "PostgreSQL Course for Experienced Developers",
+    "title": "PostgreSQL Course",
     "tagline": "Hands-on, deep dives for engineers who already ship.",
     "description": "A 10-lesson, practical course covering Postgres internals, performance, and production patterns.",
     "coverImage": "/og/default.png"
