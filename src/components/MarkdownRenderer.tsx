@@ -12,6 +12,7 @@ import { trackCodeCopy } from '../lib/analytics'
 import type { MarkdownRendererProps } from '../types/content'
 
 
+
 export default function MarkdownRenderer({ markdown, className }: MarkdownRendererProps) {
   const [processedHtml, setProcessedHtml] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
@@ -39,34 +40,31 @@ export default function MarkdownRenderer({ markdown, className }: MarkdownRender
               value: '#'
             }
           })
-          .use(rehypePrettyCode, {
-            theme: {
-              dark: 'github-dark',
-              light: 'github-light',
-            },
-            keepBackground: false,
-            defaultLang: 'text',
-          })
+          .use(rehypePrettyCode)
           .use(rehypeStringify, { allowDangerousHtml: true })
           .process(markdown)
 
         let html = String(file)
         
+        // Debug: Log a portion of the HTML to see if syntax highlighting worked
+        const codeBlockMatch = html.match(/<pre[^>]*>[\s\S]*?<\/pre>/)
+        if (codeBlockMatch) {
+          console.log('Sample code block HTML:', codeBlockMatch[0].substring(0, 200) + '...')
+        }
+        
         // Add copy buttons to code blocks
         html = html.replace(
-          /<pre[^>]*><code[^>]*>([\s\S]*?)<\/code><\/pre>/g,
-          (match, codeContent) => {
-            return match.replace(
-              /<pre([^>]*)>/,
-              `<pre$1><button class="copy-button" type="button" title="Copy to clipboard" aria-label="Copy code to clipboard"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>`
-            )
+          /<pre([^>]*)><code([^>]*)>([\s\S]*?)<\/code><\/pre>/g,
+          (_, preAttrs, codeAttrs, codeContent) => {
+            return `<pre${preAttrs}><button class="copy-button" type="button" title="Copy to clipboard" aria-label="Copy code to clipboard"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button><code${codeAttrs}>${codeContent}</code></pre>`
           }
         )
         
         setProcessedHtml(html)
       } catch (err) {
         console.error('Error processing markdown:', err)
-        setError('Failed to process markdown content')
+        console.error('Error details:', err instanceof Error ? err.message : String(err))
+        setError(`Failed to process markdown content: ${err instanceof Error ? err.message : String(err)}`)
       } finally {
         setIsLoading(false)
       }

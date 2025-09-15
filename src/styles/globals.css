@@ -112,14 +112,126 @@ body {
 }
 
 /* Enhanced code block styles */
+.markdown-content pre {
+  background-color: #1f2937 !important;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
 .markdown-content pre code {
   display: block;
   overflow-x: auto;
+  font-family: 'JetBrains Mono', Monaco, Menlo, 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #e5e7eb;
+  background: transparent !important;
+  padding: 0;
 }
 
+/* Syntax highlighting fallback styles */
+.markdown-content code {
+  font-family: 'JetBrains Mono', Monaco, Menlo, 'Courier New', monospace;
+}
+
+.markdown-content :not(pre) > code {
+  background-color: rgba(156, 163, 175, 0.1);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  font-size: 0.875em;
+}
+
+/* Code block language labels */
+.markdown-content pre[data-language]:before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 3rem;
+  background: rgba(0, 0, 0, 0.3);
+  color: #9ca3af;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Shiki theme styles */
 .markdown-content pre[data-theme] {
   border-radius: 0.5rem;
   overflow: hidden;
+}
+
+/* Shiki syntax highlighting styles */
+.markdown-content .shiki {
+  background-color: #1f2937 !important;
+  color: #e5e7eb;
+}
+
+.markdown-content .shiki code {
+  background: transparent !important;
+}
+
+/* Shiki token styles */
+.markdown-content .shiki .token.comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.markdown-content .shiki .token.keyword,
+.markdown-content .shiki .token.operator {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.markdown-content .shiki .token.string {
+  color: #10b981;
+}
+
+.markdown-content .shiki .token.number {
+  color: #ef4444;
+}
+
+.markdown-content .shiki .token.function {
+  color: #3b82f6;
+}
+
+.markdown-content .shiki .token.punctuation {
+  color: #9ca3af;
+}
+
+/* SQL syntax highlighting fallback */
+.markdown-content .language-sql {
+  color: #e5e7eb;
+}
+
+.markdown-content .language-sql .keyword {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.markdown-content .language-sql .string {
+  color: #10b981;
+}
+
+.markdown-content .language-sql .comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.markdown-content .language-sql .number {
+  color: #ef4444;
+}
+
+/* GitHub Dark theme compatibility */
+.markdown-content [data-theme="github-dark"] {
+  background-color: #1f2937 !important;
+}
+
+.markdown-content [data-theme="github-dark"] code {
+  color: #e5e7eb;
 }
 
 /* Link styles for processed markdown */
