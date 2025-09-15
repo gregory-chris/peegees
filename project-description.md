@@ -1,11 +1,14 @@
-# Intro 
+# PeeGees - PostgreSQL online course
+
+## Intro
 
 That project is a website containing PostgreSQL Course for Experienced Developers. The website has a few lessons and it's designed as a blog system. The main page has list of posts, lessons in this case, where each lesson entry has a title and a small description. Every entry on the homepage leads to a page dedicated to that specific lesson. Generally, the structure of the website should remind a blog system. Take a look at [ScalaTut](https://scalatut.greq.me) website for reference.
 
 The website has 10 lessons (the syllabus is below). Each lesson is separate page, whereas the content of the page is built of an MD file stored on the server. Therefore, when entering the page, it should fetch the relevant MD file from the server, and display it with the correct formatting. 
 
 
-## Syllabys
+
+## Syllabus
 
 ### Lesson 1: PostgreSQL Architecture & Ecosystem
 

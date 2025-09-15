@@ -1,0 +1,110 @@
+{
+  "course": {
+    "title": "PostgreSQL Course for Experienced Developers",
+    "tagline": "Hands-on, deep dives for engineers who already ship.",
+    "description": "A 10-lesson, practical course covering Postgres internals, performance, and production patterns.",
+    "coverImage": "/og/default.png"
+  },
+  "lessons": [
+    {
+      "order": 1,
+      "slug": "postgresql-architecture-ecosystem",
+      "title": "PostgreSQL Architecture & Ecosystem",
+      "description": "Overview of Postgres' process model, storage engine, WAL (Write Ahead Log), MVCC (multi-version concurrency control). Extensions ecosystem and why Postgres is considered a \"platform\" as much as a database.",
+      "mdPath": "/content/lessons/01-postgresql-architecture-ecosystem.md",
+      "ogImage": "/og/lesson-01.png",
+      "estReadMinutes": 15,
+      "tags": ["architecture", "ecosystem", "mvcc", "wal"]
+    },
+    {
+      "order": 2,
+      "slug": "data-types-advanced-structures",
+      "title": "Data Types & Advanced Structures",
+      "description": "Rich built-in types: arrays, JSON/JSONB, hstore, ranges, UUIDs. Composite and custom data types. When to use Postgres' advanced types instead of NoSQL solutions.",
+      "mdPath": "/content/lessons/02-data-types-advanced-structures.md",
+      "ogImage": "/og/lesson-02.png",
+      "estReadMinutes": 12,
+      "tags": ["data-types", "json", "jsonb", "arrays", "composite-types"]
+    },
+    {
+      "order": 3,
+      "slug": "schema-design-constraints",
+      "title": "Schema Design & Constraints",
+      "description": "Postgres' support for domains, check constraints, exclusion constraints. Table inheritance vs. partitioning. Best practices for schema design in Postgres.",
+      "mdPath": "/content/lessons/03-schema-design-constraints.md",
+      "ogImage": "/og/lesson-03.png",
+      "estReadMinutes": 14,
+      "tags": ["schema-design", "constraints", "domains", "inheritance", "partitioning"]
+    },
+    {
+      "order": 4,
+      "slug": "query-language-enhancements",
+      "title": "Query Language Enhancements",
+      "description": "Postgres-specific SQL extensions (RETURNING, CTEs, window functions, FILTER, LATERAL). Working with JSON/JSONB queries. Full-text search and pattern matching.",
+      "mdPath": "/content/lessons/04-query-language-enhancements.md",
+      "ogImage": "/og/lesson-04.png",
+      "estReadMinutes": 16,
+      "tags": ["sql-extensions", "cte", "window-functions", "json-queries", "full-text-search"]
+    },
+    {
+      "order": 5,
+      "slug": "indexing-deep-dive",
+      "title": "Indexing Deep Dive",
+      "description": "Index types: B-tree, Hash, GIN, GiST, BRIN, SP-GiST. Covering indexes and partial indexes. When to use which index type for performance optimization.",
+      "mdPath": "/content/lessons/05-indexing-deep-dive.md",
+      "ogImage": "/og/lesson-05.png",
+      "estReadMinutes": 18,
+      "tags": ["indexing", "btree", "gin", "gist", "performance", "optimization"]
+    },
+    {
+      "order": 6,
+      "slug": "concurrency-transactions",
+      "title": "Concurrency & Transactions",
+      "description": "MVCC in practice. Transaction isolation levels in Postgres. Row-level locking, advisory locks, and deadlock handling.",
+      "mdPath": "/content/lessons/06-concurrency-transactions.md",
+      "ogImage": "/og/lesson-06.png",
+      "estReadMinutes": 17,
+      "tags": ["concurrency", "transactions", "mvcc", "isolation-levels", "locking"]
+    },
+    {
+      "order": 7,
+      "slug": "partitioning-performance-optimization",
+      "title": "Partitioning & Performance Optimization",
+      "description": "Declarative partitioning vs. table inheritance. Query planning and the Postgres optimizer. EXPLAIN/ANALYZE and query tuning techniques.",
+      "mdPath": "/content/lessons/07-partitioning-performance-optimization.md",
+      "ogImage": "/og/lesson-07.png",
+      "estReadMinutes": 20,
+      "tags": ["partitioning", "performance", "query-planning", "explain", "optimization"]
+    },
+    {
+      "order": 8,
+      "slug": "extensions-procedural-languages",
+      "title": "Extensions & Procedural Languages",
+      "description": "Key extensions: PostGIS, pgcrypto, pg_partman, citext, etc. Procedural languages (PL/pgSQL, PL/Python, PL/Perl). When and how to write custom functions.",
+      "mdPath": "/content/lessons/08-extensions-procedural-languages.md",
+      "ogImage": "/og/lesson-08.png",
+      "estReadMinutes": 16,
+      "tags": ["extensions", "plpgsql", "custom-functions", "postgis", "procedural-languages"]
+    },
+    {
+      "order": 9,
+      "slug": "replication-high-availability-scaling",
+      "title": "Replication, High Availability & Scaling",
+      "description": "Streaming replication, logical replication, and WAL shipping. Connection pooling (PgBouncer, Pgpool). Scaling strategies: sharding, Citus, and FDW (Foreign Data Wrappers).",
+      "mdPath": "/content/lessons/09-replication-high-availability-scaling.md",
+      "ogImage": "/og/lesson-09.png",
+      "estReadMinutes": 22,
+      "tags": ["replication", "high-availability", "scaling", "pgbouncer", "sharding", "citus"]
+    },
+    {
+      "order": 10,
+      "slug": "administration-best-practices",
+      "title": "Administration & Best Practices",
+      "description": "Backup & recovery (pg_dump, pg_basebackup, PITR). Monitoring (pg_stat_activity, pg_stat_statements, extensions like pgBadger). Security (roles, privileges, row-level security, auditing).",
+      "mdPath": "/content/lessons/10-administration-best-practices.md",
+      "ogImage": "/og/lesson-10.png",
+      "estReadMinutes": 19,
+      "tags": ["administration", "backup", "monitoring", "security", "roles", "auditing"]
+    }
+  ]
+}

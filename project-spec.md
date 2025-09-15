@@ -156,6 +156,8 @@ A JSON file that drives the homepage list, routing, and SSG.
 }
 ```
 
+That file is already defined - [content manifest JSON](./content-manifest.json)
+
 **Rules**
 
 * `slug` is the route: `/lesson/:slug`.
@@ -170,6 +172,7 @@ A JSON file that drives the homepage list, routing, and SSG.
 * `/` → **Home** (lists lessons with `title`, `description`, `order`).
 * `/lesson/:slug` → **Lesson** (fetch & render Markdown, generate TOC from headings `h2+`).
 * Unknown paths → **NotFound**.
+* Do not reload the page upon routing or pages changes.
 
 **Linking behavior**
 
@@ -181,7 +184,7 @@ A JSON file that drives the homepage list, routing, and SSG.
 ## 5) Markdown Rendering Rules
 
 * Use `react-markdown` with plugins: `remark-gfm`, `rehype-slug`, `rehype-autolink-headings`.
-* Code blocks highlighted via `rehype-pretty-code` (Shiki). Languages auto‑detected; fenced code with explicit language preferred (e.g., `sql, `bash, `js, `ts).
+* Code blocks highlighted via `rehype-pretty-code` (Shiki). Languages auto‑detected; fenced code with explicit language preferred (e.g., \`sql, \`bash, \`js, \`ts).
 * Allow images, tables, block quotes, task lists.
 * **Security**: Do **not** allow raw HTML by default (no `rehype-raw`).
 * Map Markdown elements to Tailwind‑styled components within `MarkdownRenderer` (e.g., `prose prose-invert` for dark mode, or `prose` for light).
@@ -231,7 +234,6 @@ A JSON file that drives the homepage list, routing, and SSG.
 **Look & Feel**
 
 * Minimal, content‑first aesthetic; generous whitespace; readable line‑length.
-* Light and dark themes (system‑prefers‑color‑scheme; toggle in header).
 
 **Home**
 
@@ -340,17 +342,14 @@ A JSON file that drives the homepage list, routing, and SSG.
 
 ## 15) Environment Variables
 
-* `VITE_SITE_URL` (e.g., `https://postgres-course.example.com`) used by sitemap and canonical URLs.
+* `VITE_SITE_URL` (e.g., `https://peegees.greq.me`) used by sitemap and canonical URLs.
 * `VITE_ANALYTICS=plausible|ga4|none` and related IDs.
 
 ---
 
 ## 16) CI/CD
 
-* GitHub Actions (example):
-
-  * On PR: install deps, lint, typecheck, build, run Lighthouse CI.
-  * On `main` push: build & deploy to hosting provider.
+* Not defined in this step
 
 ---
 
@@ -368,10 +367,7 @@ A JSON file that drives the homepage list, routing, and SSG.
 
 ## 18) Nice‑to‑Have Extensions (future)
 
-* RSS feed (`/feed.xml`) generated from manifest.
 * Local full‑text search (Lunr/TinySearch) over rendered Markdown.
-* Versioned lessons (v1/v2) via folder naming and manifest.
-* Print‑to‑PDF styles for lesson pages.
 
 ---
 
