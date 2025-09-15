@@ -1,0 +1,259 @@
+# PostgreSQL Course Website - Cursor Rules
+
+## Project Overview
+You are working on "PeeGees" - a PostgreSQL course website for experienced developers. This is a high-performance, SEO-optimized static site built with React 18 + TypeScript + Vite, featuring SSG for optimal performance and social media compatibility.
+
+## Tech Stack & Architecture
+
+### Core Technologies
+- **React 18** with **TypeScript** (strict mode)
+- **Vite 5** for development and build
+- **react-router-dom 6** for client-side routing
+- **Tailwind CSS 3.x** with @tailwindcss/typography
+- **react-helmet-async** for head management
+- **vite-plugin-ssg** for static site generation
+
+### Markdown & Content
+- **react-markdown** with plugins:
+  - remark-gfm (tables, strikethrough, task lists)
+  - rehype-slug (heading IDs)
+  - rehype-autolink-headings (anchor links)
+  - rehype-pretty-code (Shiki syntax highlighting)
+- Content stored as `.md` files in `/public/content/lessons/`
+- Content manifest at `content-manifest.json` drives routing and metadata
+
+### UI & Styling
+- **Heroicons** for UI icons
+- **Google Fonts**: Inter (UI) and JetBrains Mono (code)
+- Light/dark theme support with CSS variables
+- Mobile-first responsive design
+
+### Quality Tools
+- **ESLint** with typescript-eslint
+- **Prettier** for code formatting
+- **Husky** + **lint-staged** for pre-commit hooks
+
+## File Structure & Organization
+
+```
+src/
+├── main.tsx                    # App entry point
+├── App.tsx                     # Root component with routing
+├── routes/
+│   ├── Home.tsx               # Homepage with lesson cards
+│   ├── Lesson.tsx             # Individual lesson pages
+│   └── NotFound.tsx           # 404 page
+├── components/
+│   ├── Layout/
+│   │   ├── SiteHeader.tsx     # Navigation header
+│   │   ├── SiteFooter.tsx     # Site footer
+│   │   └── Container.tsx      # Responsive container
+│   ├── LessonCard.tsx         # Lesson preview card
+│   ├── MarkdownRenderer.tsx   # Markdown content renderer
+│   ├── TOC.tsx                # Table of contents
+│   └── ShareButtons.tsx       # Social sharing buttons
+├── lib/
+│   ├── content.ts             # Content fetching utilities
+│   ├── seo.ts                 # SEO helpers
+│   └── analytics.ts           # Analytics integration
+├── styles/
+│   └── globals.css            # Global styles and CSS variables
+└── types/
+    └── content.d.ts           # TypeScript type definitions
+```
+
+## Coding Standards & Best Practices
+
+### TypeScript Guidelines
+- Use **strict mode** TypeScript configuration
+- Define comprehensive interfaces in `src/types/content.d.ts`
+- Prefer explicit types over `any`
+- Use proper generic constraints for reusable components
+- Export types alongside components when needed
+
+### React Patterns
+- Use **function components** with hooks exclusively
+- Prefer **composition over context** where possible
+- Use React.memo() for expensive components
+- Implement proper error boundaries for content loading
+- Use AbortController for cancelling fetch requests on navigation
+
+### Component Architecture
+- Keep components **single-responsibility**
+- Props should be explicitly typed interfaces
+- Use proper semantic HTML (header, main, nav, footer)
+- Implement proper accessibility (ARIA labels, keyboard navigation)
+- Ensure all interactive elements are keyboard accessible
+
+### Content Management
+- Content manifest (`content-manifest.json`) is the single source of truth
+- Fetch content using utilities in `src/lib/content.ts`
+- Cache manifest in memory + sessionStorage for performance
+- Handle loading states and network errors gracefully
+- Never use dangerouslySetInnerHTML with markdown content
+
+### Styling Guidelines
+- Use **Tailwind utility classes** exclusively
+- No custom CSS except in `globals.css` for CSS variables
+- Implement responsive design with mobile-first approach
+- Use Tailwind's typography plugin for markdown content
+- Ensure WCAG AA color contrast compliance
+- Support both light and dark themes
+
+### Performance Requirements
+- Target Lighthouse scores ≥ 95 (desktop), ≥ 90 (mobile)
+- Implement proper code splitting and lazy loading
+- Use React.Suspense for loading states
+- Optimize images with loading="lazy"
+- Minimize bundle size and implement tree shaking
+
+### SEO & Accessibility
+- Use react-helmet-async for dynamic meta tags
+- Implement proper Open Graph and Twitter Card meta tags
+- Ensure semantic heading hierarchy (one h1 per page)
+- Add alt text to all images
+- Include skip-to-content links
+- Test with screen readers and keyboard navigation
+
+### Security Considerations
+- Never allow raw HTML in markdown (no rehype-raw plugin)
+- Sanitize external links with rel="noopener noreferrer"
+- Validate and sanitize all user inputs
+- Use proper CORS policies for content fetching
+
+## Specific Implementation Rules
+
+### Content Loading
+```typescript
+// Always use AbortController for fetch requests
+const controller = new AbortController();
+const response = await fetch(url, { signal: controller.signal });
+
+// Cache content manifest in both memory and sessionStorage
+const manifest = await fetchManifest();
+sessionStorage.setItem('content-manifest', JSON.stringify(manifest));
+```
+
+### Component Props
+```typescript
+// Always define explicit interfaces for props
+interface LessonCardProps {
+  index: number;
+  title: string;
+  description: string;
+  slug: string;
+  estReadMinutes?: number;
+  tags?: string[];
+}
+```
+
+### Error Handling
+```typescript
+// Implement proper error boundaries and fallbacks
+if (!markdown) {
+  return <ErrorMessage onRetry={handleRetry} />;
+}
+```
+
+### Routing
+- Use `<Link>` components for internal navigation
+- Implement proper focus management on route changes
+- Scroll to top on route change, preserve scroll on anchor links
+- Handle 404 states gracefully
+
+### Markdown Rendering
+- Use react-markdown with specified plugins only
+- Implement custom renderers for Tailwind styling
+- Add copy-to-clipboard functionality for code blocks
+- Generate TOC from h2/h3 headings with IntersectionObserver
+
+## Environment & Build
+
+### Environment Variables
+- `VITE_SITE_URL` for canonical URLs and sitemap
+- `VITE_ANALYTICS` for analytics configuration
+- Use proper type definitions for environment variables
+
+### Build Process
+- SSG pre-renders all routes from content manifest
+- Generate sitemap.xml and robots.txt
+- Optimize assets and implement proper caching headers
+- Validate all markdown content during build
+
+## Quality Assurance
+
+### Testing Requirements
+- Test all components with realistic content
+- Verify cross-browser compatibility
+- Validate accessibility with axe-core
+- Test social media sharing with debuggers
+- Verify offline functionality if PWA enabled
+
+### Performance Monitoring
+- Regular Lighthouse audits during development
+- Monitor bundle size and loading performance
+- Test with slow network conditions
+- Validate service worker functionality
+
+## Content Guidelines
+
+### Markdown Best Practices
+- Use explicit language tags for code blocks (sql, bash, js, ts)
+- Include alt text for all images
+- Reference images with relative URLs to `/content/media/`
+- Structure content with proper heading hierarchy
+
+### Content Manifest Rules
+- Maintain proper lesson ordering
+- Use descriptive, URL-safe slugs
+- Include realistic read time estimates
+- Tag lessons appropriately for filtering
+- Ensure all mdPath references are valid
+
+## Common Patterns to Follow
+
+### Loading States
+```tsx
+if (loading) return <LoadingSpinner />;
+if (error) return <ErrorMessage error={error} onRetry={handleRetry} />;
+return <ContentComponent data={data} />;
+```
+
+### Theme Implementation
+```tsx
+// Use CSS variables for theming
+className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+```
+
+### Accessibility
+```tsx
+// Always include proper ARIA labels and keyboard support
+<button
+  onClick={handleClick}
+  onKeyDown={handleKeyDown}
+  aria-label="Copy code to clipboard"
+  className="focus:ring-2 focus:ring-indigo-500"
+>
+```
+
+## Anti-Patterns to Avoid
+
+- ❌ Don't use dangerouslySetInnerHTML
+- ❌ Don't enable rehype-raw plugin
+- ❌ Don't use custom CSS outside of globals.css
+- ❌ Don't implement server-side logic (this is a static site)
+- ❌ Don't use `any` type without justification
+- ❌ Don't implement authentication or user state
+- ❌ Don't fetch data on every render without caching
+- ❌ Don't ignore accessibility requirements
+- ❌ Don't implement client-side routing that breaks SSG
+
+## Performance Budgets
+
+- **Initial Load**: < 3s on 3G
+- **Bundle Size**: < 500KB gzipped
+- **Lighthouse Performance**: ≥ 95 (desktop), ≥ 90 (mobile)
+- **Time to Interactive**: < 5s
+- **Cumulative Layout Shift**: < 0.1
+
+Always prioritize user experience, performance, and accessibility in all implementation decisions.
