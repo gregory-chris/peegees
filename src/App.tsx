@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
+import * as ReactHelmetAsync from 'react-helmet-async'
+const { HelmetProvider } = ReactHelmetAsync
 import { ContentProvider } from './contexts/ContentContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import Layout from './components/Layout/Layout'

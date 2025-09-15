@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
+import * as ReactHelmetAsync from 'react-helmet-async'
+const { Helmet } = ReactHelmetAsync
 import { HomeIcon } from '@heroicons/react/24/outline'
 import Container from '../components/Layout/Container'
 import { useContent } from '../contexts/ContentContext'

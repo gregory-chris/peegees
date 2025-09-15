@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet-async'
+import * as ReactHelmetAsync from 'react-helmet-async'
+const { Helmet } = ReactHelmetAsync
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import Container from '../components/Layout/Container'
 import LoadingSpinner from '../components/LoadingSpinner'

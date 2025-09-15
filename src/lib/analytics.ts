@@ -273,7 +273,6 @@ declare global {
     }
     gtag?: (...args: unknown[]) => void
     dataLayer?: unknown[]
-    requestIdleCallback?: (callback: () => void) => number
   }
 }
 

@@ -40,7 +40,9 @@ export default function MarkdownRenderer({ markdown, className }: MarkdownRender
               value: '#'
             }
           })
-          .use(rehypePrettyCode)
+          .use(rehypePrettyCode, {
+            theme: 'github-dark',
+          })
           .use(rehypeStringify, { allowDangerousHtml: true })
           .process(markdown)
 

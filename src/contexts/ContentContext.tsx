@@ -39,20 +39,35 @@ export function ContentProvider({ children }: ContentProviderProps) {
     } finally {
       setLoading(false)
     }
+  }, [])
 
+  useEffect(() => {
+    const controller = createAbortController()
+    
+    const loadContent = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        
+        const manifestData = await fetchContentManifest(controller.signal)
+        setManifest(manifestData)
+      } catch (err) {
+        if (err instanceof Error && err.name !== 'AbortError') {
+          const errorMessage = err.message || 'Failed to load content'
+          setError(errorMessage)
+          console.error('Failed to fetch content manifest:', err)
+        }
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    loadContent()
+    
     return () => {
       controller.abort()
     }
   }, [])
-
-  useEffect(() => {
-    const cleanup = refetch()
-    return () => {
-      if (typeof cleanup === 'function') {
-        cleanup()
-      }
-    }
-  }, [refetch])
 
   const contextValue: ContentContextType = {
     manifest,

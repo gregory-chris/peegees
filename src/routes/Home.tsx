@@ -1,4 +1,5 @@
-import { Helmet } from 'react-helmet-async'
+import * as ReactHelmetAsync from 'react-helmet-async'
+const { Helmet } = ReactHelmetAsync
 import { useContent } from '../contexts/ContentContext'
 import { generateHomeSEO, generateMetaTags, generateLinkTags } from '../lib/seo'
 import Container from '../components/Layout/Container'
