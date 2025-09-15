@@ -1,69 +1,53 @@
-# React + TypeScript + Vite
+# 🐘 PeeGees - PostgreSQL Course for Experienced Developers
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Hands-on, deep dives for engineers who already ship.**
 
-Currently, two official plugins are available:
+A modern, interactive online course covering PostgreSQL internals, performance optimization, and production patterns. Built with React, TypeScript, and Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📚 About the Course
 
-## Expanding the ESLint configuration
+This comprehensive **10-lesson course** is designed for experienced developers who want to master PostgreSQL beyond the basics. Each lesson dives deep into advanced topics with practical examples and real-world scenarios.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🎯 Prerequisites
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Experience required**: This course assumes you already have experience with databases and SQL
+- Familiarity with backend development concepts
+- Basic understanding of database fundamentals
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 📖 Course Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**10 comprehensive lessons** covering:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. **PostgreSQL Architecture & Ecosystem** - Process model, storage engine, WAL, MVCC
+2. **Data Types & Advanced Structures** - Arrays, JSON/JSONB, composite types
+3. **Schema Design & Constraints** - Domains, check constraints, partitioning
+4. **Query Language Enhancements** - CTEs, window functions, full-text search
+5. **Indexing Deep Dive** - B-tree, GIN, GiST, BRIN index types
+6. **Concurrency & Transactions** - MVCC, isolation levels, locking
+7. **Partitioning & Performance** - Query planning, optimization techniques
+8. **Extensions & Procedural Languages** - PostGIS, PL/pgSQL, custom functions
+9. **Replication & High Availability** - Streaming replication, scaling strategies
+10. **Administration & Best Practices** - Backup, monitoring, security
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🛠️ Technology Stack
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite 5
+- **Styling**: Tailwind CSS 3 + @tailwindcss/typography
+- **Routing**: React Router 6
+- **Markdown**: Unified ecosystem with Shiki syntax highlighting
+- **SEO**: React Helmet Async
+- **Code Quality**: ESLint + Prettier + Husky
+
+## 🎨 Features
+
+- 📱 **Responsive design** - Works on all devices
+- 🔍 **Syntax highlighting** - SQL and code examples with Shiki
+- 📑 **Table of contents** - Auto-generated for each lesson
+- 📋 **Copy code blocks** - One-click code copying
+- ♿ **Accessibility** - WCAG compliant
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
