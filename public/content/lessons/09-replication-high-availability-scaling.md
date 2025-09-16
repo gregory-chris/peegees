@@ -8,6 +8,8 @@ PostgreSQL's replication and scaling capabilities enable building robust, highly
 
 ### Setting Up Primary-Replica Configuration
 
+Streaming replication requires configuring the primary server to send WAL records to replica servers in real-time. This involves setting WAL levels, creating replication users, and configuring connection permissions.
+
 ```sql
 -- Primary server configuration (postgresql.conf)
 /*
@@ -69,6 +71,8 @@ pg_basebackup -h primary_server -D /var/lib/postgresql/data -U replicator -P -W 
 ```
 
 ### Monitoring Replication
+
+Effective replication monitoring helps detect lag, identify failed replicas, and ensure data consistency. PostgreSQL provides comprehensive views and functions to track replication health and performance.
 
 ```sql
 -- On primary: Monitor replication status
@@ -142,6 +146,8 @@ SELECT * FROM monitor_replication_health();
 
 ### Synchronous vs Asynchronous Replication
 
+Choosing between synchronous and asynchronous replication involves balancing data safety against performance. Synchronous replication guarantees data consistency but may impact write performance, while asynchronous offers better performance with some risk of data loss.
+
 ```sql
 -- Configure synchronous replication
 -- On primary server:
@@ -176,6 +182,8 @@ SELECT pg_reload_conf();
 ## Logical Replication
 
 ### Publication and Subscription Setup
+
+Logical replication uses publications to define which data to replicate and subscriptions to specify how to receive that data. This selective approach enables complex replication topologies and data distribution patterns.
 
 ```sql
 -- On publisher (source) database
@@ -259,6 +267,8 @@ WHERE slot_type = 'logical';
 
 ### Advanced Logical Replication Patterns
 
+Complex replication scenarios require sophisticated patterns like multi-master setups, conflict resolution strategies, and selective replication. These patterns enable distributed architectures while maintaining data integrity.
+
 ```sql
 -- Multi-master setup with conflict resolution
 -- Database A
@@ -310,6 +320,8 @@ CREATE POLICY customers_eu_policy ON customers
 ```
 
 ### Logical Replication Monitoring
+
+Monitoring logical replication requires tracking subscription status, worker processes, and replication lag. This ensures data consistency across distributed systems and helps identify performance bottlenecks.
 
 ```sql
 -- Comprehensive replication monitoring view
@@ -405,6 +417,8 @@ server_reset_query = DISCARD ALL
 
 ### Connection Pool Monitoring
 
+Effective connection pool monitoring helps optimize pool sizes, identify connection leaks, and ensure optimal database resource utilization. Proper monitoring prevents connection exhaustion and performance degradation.
+
 ```sql
 -- Monitor connection pool status (via PgBouncer admin)
 -- Connect to pgbouncer admin: psql "host=localhost port=6432 dbname=pgbouncer user=pgbouncer"
@@ -491,6 +505,8 @@ SELECT * FROM check_connection_health();
 
 ### Application Connection Patterns
 
+Smart application connection patterns ensure optimal use of connection pools and database resources. These patterns include read/write splitting, transaction-aware routing, and graceful degradation strategies.
+
 ```sql
 -- Read/write splitting configuration
 CREATE OR REPLACE FUNCTION get_connection_string(operation_type TEXT)
@@ -534,6 +550,8 @@ SELECT route_query('SELECT COUNT(*) FROM sales_analytics WHERE date >= ''2024-01
 ## Scaling Strategies
 
 ### Sharding Implementation
+
+Database sharding distributes data across multiple PostgreSQL instances to handle massive scale. Proper sharding strategies consider data distribution patterns, cross-shard queries, and rebalancing requirements.
 
 ```sql
 -- Horizontal sharding setup
@@ -654,6 +672,8 @@ SELECT get_shard_for_key('customer_789');
 ```
 
 ### Foreign Data Wrappers (FDW)
+
+Foreign Data Wrappers enable accessing external data sources as if they were local tables. This facilitates data federation, cross-database queries, and integration with heterogeneous systems without data migration.
 
 ```sql
 -- Install postgres_fdw extension
@@ -849,6 +869,8 @@ postgresql:
 
 ### Health Monitoring and Alerting
 
+Comprehensive health monitoring detects issues before they impact users. Automated alerting systems enable rapid response to failures, performance degradation, and capacity limits.
+
 ```sql
 -- Comprehensive health monitoring system
 CREATE TABLE cluster_health_log (
@@ -970,6 +992,8 @@ SELECT log_cluster_health();
 ## Disaster Recovery
 
 ### Point-in-Time Recovery (PITR)
+
+Point-in-Time Recovery enables restoring databases to any specific moment in time, providing protection against data corruption, accidental deletions, and application errors. PITR combines base backups with WAL archive replay.
 
 ```sql
 -- Configure continuous archiving

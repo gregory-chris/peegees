@@ -63,6 +63,8 @@ WHERE tags @> ARRAY[5]; -- Users who have tag 5
 
 ### JSON and JSONB: Document Storage
 
+PostgreSQL supports storing semi-structured data using JSON and JSONB. While JSON keeps the data as plain text, JSONB stores it in a binary format that enables indexing and faster querying. This makes JSONB the preferred option when working with complex, frequently accessed document-style data.
+
 ```sql
 -- Create table with JSON columns
 CREATE TABLE product_catalog (
@@ -121,6 +123,8 @@ WHERE specifications @> '{"features": {"backlit_keyboard": true}}';
 
 ### UUID: Universal Identifiers
 
+UUIDs (Universally Unique Identifiers) provide a way to generate globally unique keys without relying on sequential IDs. This is especially useful in distributed systems where multiple databases or services need to create records independently. PostgreSQL’s uuid-ossp extension makes it easy to generate UUIDs, such as version 4 random identifiers.
+
 ```sql
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -148,6 +152,8 @@ FROM distributed_entities;
 ```
 
 ### Range Types: Continuous Data
+
+PostgreSQL supports range types, which represent continuous ranges of values such as numbers, timestamps, or integers. These are useful for modeling concepts like time intervals, pricing brackets, or age restrictions. They also support overlap checks, containment queries, and indexing for efficient retrieval.
 
 ```sql
 -- Built-in range types
@@ -189,6 +195,8 @@ FROM event_schedule;
 ```
 
 ### hstore: Key-Value Pairs
+
+The `hstore` extension provides a simple key-value store within a single PostgreSQL column. It’s ideal for flexible, schema-less attributes like configuration settings or metadata. Unlike JSONB, `hstore` is lightweight and optimized for flat key-value pairs without nested structures.
 
 ```sql
 -- Enable hstore extension
@@ -232,6 +240,8 @@ FROM server_config;
 
 ### Composite Types: Structured Data
 
+Composite types allow you to define custom structured types that group multiple fields together. They make complex data more manageable by encapsulating related attributes into reusable types. This is especially useful when modeling entities like addresses or contact information.
+
 ```sql
 -- Define composite types
 CREATE TYPE address_type AS (
@@ -274,6 +284,8 @@ FROM customers;
 ```
 
 ### Domain Types: Constrained Types
+
+Domain types let you create custom data types with built-in validation rules and constraints. They ensure data consistency by enforcing checks (e.g., email format or phone number patterns) at the database level. This reduces redundancy and centralizes validation logic across multiple tables.
 
 ```sql
 -- Create domain types with constraints

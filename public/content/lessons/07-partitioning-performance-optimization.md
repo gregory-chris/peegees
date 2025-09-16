@@ -8,6 +8,8 @@ PostgreSQL's query optimizer and partitioning system are sophisticated tools for
 
 ### How PostgreSQL Chooses Execution Plans
 
+PostgreSQL's query planner analyzes multiple execution strategies and chooses the one with the lowest estimated cost. Understanding how it makes these decisions helps you write more efficient queries and design better schemas.
+
 ```sql
 -- Create tables for optimizer demonstrations
 CREATE TABLE customers (
@@ -70,6 +72,8 @@ ANALYZE order_items;
 
 ### Reading EXPLAIN Plans
 
+EXPLAIN shows you exactly how PostgreSQL will execute your query, including which indexes it uses, join algorithms it chooses, and estimated costs. EXPLAIN ANALYZE additionally provides actual execution statistics.
+
 ```sql
 -- Basic EXPLAIN output
 EXPLAIN 
@@ -100,6 +104,8 @@ LIMIT 10;
 ```
 
 ### Understanding Plan Nodes
+
+Each node in an execution plan represents a specific operation like scanning a table, joining data, or sorting results. Different node types have different performance characteristics and understanding them helps identify bottlenecks.
 
 ```sql
 -- Nested Loop vs Hash Join vs Merge Join
@@ -141,6 +147,8 @@ WHERE order_date BETWEEN '2024-01-01' AND '2024-01-31';
 ```
 
 ### Query Plan Analysis Tools
+
+Building custom tools to analyze and monitor query performance helps identify patterns and regressions over time. These tools can automate the process of detecting expensive queries and tracking optimization efforts.
 
 ```sql
 -- Function to analyze expensive queries
@@ -205,6 +213,8 @@ $$ LANGUAGE plpgsql;
 
 ### Range Partitioning for Time-Series Data
 
+Range partitioning divides data based on value ranges, making it ideal for time-series data where queries often filter by date ranges. This enables partition pruning, where PostgreSQL only scans relevant partitions.
+
 ```sql
 -- Create partitioned table for time-series analytics
 CREATE TABLE sales_analytics (
@@ -259,6 +269,8 @@ FROM generate_series(1, 100000);
 
 ### Hash Partitioning for Even Distribution
 
+Hash partitioning distributes data evenly across partitions using a hash function on the partition key. This approach ensures balanced data distribution when you don't have natural range boundaries.
+
 ```sql
 -- Create hash-partitioned table for user data
 CREATE TABLE user_analytics (
@@ -311,6 +323,8 @@ FROM generate_series(1, 100000) n;
 
 ### List Partitioning by Category
 
+List partitioning assigns specific values to specific partitions, making it ideal for categorical data where you want to group related values together. This is useful for geographical regions, status codes, or business divisions.
+
 ```sql
 -- Create list-partitioned table for regional data
 CREATE TABLE regional_sales (
@@ -347,6 +361,8 @@ FROM generate_series(1, 50000);
 
 ### Multi-Level Partitioning
 
+Multi-level partitioning allows you to partition an already partitioned table, creating a hierarchy of partitions. This is useful when you need to partition by multiple dimensions, such as date and region.
+
 ```sql
 -- Multi-level partitioning: date then region
 CREATE TABLE transaction_log (
@@ -380,6 +396,8 @@ CREATE TABLE transaction_log_2024_other PARTITION OF transaction_log_2024 DEFAUL
 ## Partition Pruning and Constraint Exclusion
 
 ### Understanding Partition Pruning
+
+Partition pruning is PostgreSQL's ability to skip irrelevant partitions during query execution. The planner analyzes WHERE clauses to determine which partitions contain the requested data, dramatically reducing I/O.
 
 ```sql
 -- Demonstrate partition pruning
@@ -416,6 +434,8 @@ SET enable_partition_pruning = on;
 
 ### Runtime Partition Pruning
 
+Runtime partition pruning occurs when the partition key values are only known at execution time, such as with parameterized queries or joins. This extends pruning benefits to dynamic query scenarios.
+
 ```sql
 -- Runtime pruning with parameters
 PREPARE partition_query AS
@@ -443,6 +463,8 @@ WHERE c.country = 'US'
 ## Performance Optimization Techniques
 
 ### Query Optimization Strategies
+
+Specific optimization techniques become available when working with partitioned tables. These include partition-wise joins, constraint exclusion, and strategic index placement across partitions.
 
 ```sql
 -- Index optimization for partitioned tables
@@ -480,6 +502,8 @@ ORDER BY live_tuples DESC;
 ```
 
 ### Materialized Views for Aggregation
+
+Materialized views can be built on top of partitioned tables to pre-compute aggregations. When combined with partition pruning, they enable fast analytics queries over large datasets.
 
 ```sql
 -- Create materialized view for common aggregations
@@ -522,6 +546,8 @@ ORDER BY total_revenue DESC;
 
 ### Parallel Query Execution
 
+Partitioned tables can leverage parallel execution more effectively since each partition can be processed by separate workers. This multiplies the benefits of both partitioning and parallelism.
+
 ```sql
 -- Configure parallel execution
 SET max_parallel_workers_per_gather = 4;
@@ -551,6 +577,8 @@ SET force_parallel_mode = off;
 ```
 
 ### Work Memory and Sort Optimization
+
+Proper work_mem configuration is crucial for partitioned table performance, especially for large aggregations and sorts. Different operations may benefit from different memory allocations.
 
 ```sql
 -- Monitor sort operations
@@ -586,6 +614,8 @@ WHERE datname = current_database();
 ## Automated Partition Management
 
 ### Partition Creation Functions
+
+Automating partition creation through functions ensures consistent naming, proper constraints, and reduces manual effort. These functions can be called by scheduled jobs for ongoing partition management.
 
 ```sql
 -- Function to create monthly partitions
@@ -675,6 +705,8 @@ SELECT drop_old_partitions('sales_analytics', INTERVAL '2 years');
 
 ### Automated Maintenance
 
+Automated maintenance scripts handle routine tasks like creating future partitions, dropping old partitions, and updating statistics. This ensures optimal performance without manual intervention.
+
 ```sql
 -- Partition maintenance scheduler
 CREATE TABLE partition_maintenance_log (
@@ -744,6 +776,8 @@ SELECT maintain_partitions();
 
 ### Query Performance Analysis
 
+Regular performance analysis helps identify when partition strategies need adjustment. Monitoring partition pruning effectiveness and query patterns guides optimization decisions.
+
 ```sql
 -- Monitor partition-wise operations
 CREATE VIEW partition_performance AS
@@ -782,6 +816,8 @@ WHERE sale_date BETWEEN '2024-02-01' AND '2024-02-29';
 ```
 
 ### Index Usage on Partitions
+
+Index strategies for partitioned tables require careful consideration. You can create indexes on individual partitions or on the parent table, each approach having different trade-offs for query performance and maintenance overhead.
 
 ```sql
 -- Analyze index usage across partitions
