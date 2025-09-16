@@ -35,6 +35,8 @@ FROM user_preferences;
 
 ### Array Operations and Functions
 
+PostgreSQL provides powerful operators and functions for working with arrays, enabling complex operations like concatenation, overlap detection, and element containment checks. These operations make arrays a viable alternative to normalized junction tables in many scenarios.
+
 ```sql
 -- Array operators and functions
 SELECT 
@@ -89,6 +91,8 @@ INSERT INTO product_catalog (metadata, specifications) VALUES
 ```
 
 ### JSONB Operations and Indexing
+
+JSONB (Binary JSON) offers advanced querying capabilities and indexing support that makes it superior to regular JSON for most use cases. The binary format enables efficient operations and GIN indexing for fast containment queries.
 
 ```sql
 -- JSONB queries
@@ -300,6 +304,8 @@ INSERT INTO user_accounts (email, phone, account_balance) VALUES
 
 ### Enumerated Types
 
+Enums provide type safety and performance benefits by restricting values to a predefined set while maintaining natural ordering. They're ideal for status fields, priority levels, and other categorical data with a known, limited set of values.
+
 ```sql
 -- Create enum types
 CREATE TYPE order_status AS ENUM (
@@ -338,6 +344,8 @@ ORDER BY priority DESC, created_at;
 
 ### PostgreSQL vs. MongoDB-style Documents
 
+PostgreSQL's JSONB capabilities often eliminate the need for separate document databases like MongoDB. You can achieve the flexibility of document storage while maintaining ACID properties, relational integrity, and SQL's powerful querying capabilities.
+
 ```sql
 -- Instead of separate MongoDB collection, use JSONB
 CREATE TABLE user_profiles (
@@ -367,6 +375,8 @@ CREATE TABLE orders (
 ```
 
 ### Performance Considerations
+
+Proper indexing strategies are crucial when working with advanced types. Each type has specific index types that optimize different query patterns, from GIN indexes for JSONB containment to GiST indexes for range overlaps.
 
 ```sql
 -- Indexing strategies for advanced types
@@ -478,6 +488,8 @@ WHERE
 
 ### Analytics with Advanced Types
 
+Advanced types enable sophisticated analytics directly in the database, combining time-series data, JSON aggregations, and array operations. This approach reduces data movement and leverages PostgreSQL's analytical functions for complex computations.
+
 ```sql
 -- Time-series data with advanced aggregations
 CREATE TABLE sensor_readings (
@@ -518,6 +530,8 @@ GROUP BY sensor_id;
 ## Migration Strategies
 
 ### From Traditional Schema to Advanced Types
+
+Migrating from normalized schemas to advanced types can significantly simplify application code and improve performance. The key is identifying where flexible data structures provide benefits over rigid relational models.
 
 ```sql
 -- Before: Normalized approach
