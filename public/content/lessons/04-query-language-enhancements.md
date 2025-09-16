@@ -8,6 +8,8 @@ PostgreSQL extends standard SQL with powerful features that enable complex data 
 
 ### Basic RETURNING Usage
 
+The RETURNING clause allows you to retrieve values from modified rows without requiring a separate SELECT query. This is particularly useful for getting auto-generated IDs, timestamps, or computed values after INSERT, UPDATE, or DELETE operations.
+
 ```sql
 -- Setup demo table
 CREATE TABLE inventory (
@@ -39,6 +41,8 @@ RETURNING item_id, product_name, 'DELETED: ' || now()::TEXT as audit_message;
 ```
 
 ### Advanced RETURNING Patterns
+
+RETURNING can be combined with CTEs, UPSERT operations, and complex calculations to create powerful data processing pipelines. It's especially valuable in OLTP systems where you need immediate feedback from data modifications.
 
 ```sql
 -- RETURNING with calculations
@@ -81,6 +85,8 @@ RETURNING
 
 ### Basic CTEs
 
+Common Table Expressions provide a way to write auxiliary statements for use in a larger query. They improve readability by breaking complex queries into named, reusable components and can be referenced multiple times within the main query.
+
 ```sql
 -- Simple CTE for readability
 WITH recent_orders AS (
@@ -113,6 +119,8 @@ ORDER BY ct.total_spent DESC;
 ```
 
 ### Recursive CTEs
+
+Recursive CTEs enable traversal of hierarchical data structures like organizational charts, file systems, or graphs. They use a base case and recursive case to iteratively build result sets, making complex tree operations manageable.
 
 ```sql
 -- Employee hierarchy
@@ -178,6 +186,8 @@ ORDER BY path_ids;
 ```
 
 ### Advanced Recursive Examples
+
+Advanced recursive patterns handle complex scenarios like cycle detection, path finding, and graph traversal. These examples show how to prevent infinite loops and extract meaningful information from interconnected data.
 
 ```sql
 -- Bill of Materials (BOM) explosion
@@ -277,6 +287,8 @@ WHERE unit_cost > 0; -- Exclude assemblies
 
 ### Basic Window Functions
 
+Window functions perform calculations across a set of rows related to the current row without collapsing the result set like aggregate functions. They provide powerful analytical capabilities for ranking, running totals, and comparative analysis.
+
 ```sql
 -- Sales data for window function examples
 CREATE TABLE sales_performance (
@@ -372,6 +384,8 @@ ORDER BY region, sales_rep, sale_date;
 
 ### Advanced Window Function Patterns
 
+Advanced window function patterns solve complex analytical problems like gap detection, streak analysis, and statistical calculations. These techniques are essential for time-series analysis and business intelligence applications.
+
 ```sql
 -- Gap and island detection
 WITH sales_with_gaps AS (
@@ -432,6 +446,8 @@ ORDER BY amount DESC;
 ## FILTER Clause
 
 ### Conditional Aggregations
+
+The FILTER clause enables selective aggregation by applying conditions to aggregate functions. This eliminates the need for complex CASE statements and provides cleaner, more readable conditional calculations.
 
 ```sql
 -- Using FILTER for conditional aggregations
@@ -499,6 +515,8 @@ ORDER BY sales_rep, sale_date;
 
 ### Basic LATERAL Usage
 
+LATERAL joins allow subqueries to reference columns from preceding tables in the FROM clause. This enables correlated operations that would be difficult or impossible with standard joins, particularly useful for array processing and dynamic calculations.
+
 ```sql
 -- LATERAL for correlated subqueries
 SELECT 
@@ -554,6 +572,8 @@ ORDER BY c.customer_name, tp.times_ordered DESC;
 ```
 
 ### Advanced LATERAL Patterns
+
+Advanced LATERAL patterns enable sophisticated data transformations like array unnesting with context preservation, dynamic calculations, and complex aggregations that maintain row-level detail.
 
 ```sql
 -- LATERAL for array unnesting with context
@@ -620,6 +640,8 @@ ORDER BY calc.avg_sale DESC;
 
 ### Basic JSON Operations
 
+PostgreSQL's JSON and JSONB support includes operators for extraction, modification, and querying. These operations provide flexible data handling while maintaining the benefits of relational integrity and ACID properties.
+
 ```sql
 -- JSON data examples
 CREATE TABLE api_logs (
@@ -677,6 +699,8 @@ FROM api_logs;
 ```
 
 ### Advanced JSON Querying
+
+Advanced JSON operations include path-based queries, aggregations, and transformations. These capabilities enable complex data analysis directly on JSON structures without requiring separate document databases.
 
 ```sql
 -- JSON path queries (PostgreSQL 12+)
@@ -742,6 +766,8 @@ WHERE log_id = 1;
 
 ### Basic Text Search
 
+PostgreSQL's full-text search capabilities include stemming, ranking, and phrase queries. The built-in text search is often sufficient for applications requiring search functionality without external search engines.
+
 ```sql
 -- Full-text search setup
 CREATE TABLE documents (
@@ -798,6 +824,8 @@ ORDER BY rank DESC;
 
 ### Advanced Text Search Patterns
 
+Advanced text search patterns include custom rankings, phrase distance, and search result highlighting. These features provide sophisticated search capabilities comparable to dedicated search engines.
+
 ```sql
 -- Phrase search and proximity
 SELECT 
@@ -834,6 +862,8 @@ WHERE to_tsvector('code_search', title || ' ' || content)
 ## Pattern Matching
 
 ### Advanced Pattern Matching
+
+Pattern matching in PostgreSQL extends beyond basic LIKE operations to include regular expressions, similarity functions, and fuzzy matching. These tools are essential for data cleaning, validation, and flexible search operations.
 
 ```sql
 -- Pattern matching examples
@@ -898,6 +928,8 @@ ORDER BY entry_id;
 ## Query Optimization with Advanced Features
 
 ### Combining Multiple Enhancements
+
+Real-world applications benefit from combining multiple PostgreSQL enhancements in single queries. This comprehensive example demonstrates how window functions, CTEs, JSON operations, and other features work together for complex analytics.
 
 ```sql
 -- Complex analytical query combining multiple features

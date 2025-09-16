@@ -8,6 +8,8 @@ PostgreSQL's MVCC (Multi-Version Concurrency Control) system enables high-perfor
 
 ### Understanding Transaction Snapshots
 
+PostgreSQL uses Multi-Version Concurrency Control (MVCC) to provide consistent reads without blocking writes. Each transaction sees a snapshot of the database at the moment it started, ensuring data consistency across concurrent operations.
+
 ```sql
 -- Create test table for MVCC demonstrations
 CREATE TABLE account_balances (
@@ -60,6 +62,8 @@ SELECT * FROM account_balances WHERE account_id = 1;
 
 ### Transaction ID and Visibility
 
+Every transaction receives a unique transaction ID (XID) that determines row visibility. PostgreSQL uses these XIDs along with tuple headers to implement MVCC, allowing multiple versions of rows to coexist safely.
+
 ```sql
 -- Examine transaction visibility information
 SELECT 
@@ -97,6 +101,8 @@ WHERE state = 'active' OR state = 'idle in transaction';
 
 ### Read Uncommitted
 
+Read Uncommitted is the lowest isolation level, allowing dirty reads of uncommitted changes from other transactions. While PostgreSQL supports this level for SQL compliance, it behaves identically to Read Committed due to MVCC architecture.
+
 ```sql
 -- Read Uncommitted: Can see uncommitted changes from other transactions
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
@@ -122,6 +128,8 @@ COMMIT;
 
 ### Read Committed (Default)
 
+Read Committed ensures that transactions only see committed changes, preventing dirty reads. This is PostgreSQL's default isolation level, providing a good balance between consistency and concurrency for most applications.
+
 ```sql
 -- Read Committed: Sees committed changes during transaction
 -- Session A:
@@ -140,6 +148,8 @@ COMMIT;
 ```
 
 ### Repeatable Read
+
+Repeatable Read provides transaction-level consistency by maintaining the same snapshot throughout the transaction. This prevents non-repeatable reads and phantom reads within a single transaction's scope.
 
 ```sql
 -- Repeatable Read: Consistent snapshot throughout transaction
@@ -173,6 +183,8 @@ SELECT * FROM account_balances;
 ```
 
 ### Serializable
+
+Serializable isolation provides the strongest consistency guarantees by ensuring that concurrent transactions produce the same result as if they executed serially. This prevents all forms of anomalies but may cause serialization failures.
 
 ```sql
 -- Serializable: Strongest isolation, prevents all anomalies
@@ -220,6 +232,8 @@ SELECT * FROM transfer_log;
 
 ### Explicit Locking Commands
 
+Explicit locking provides fine-grained control over concurrent access patterns. Different lock modes offer varying levels of exclusivity, allowing applications to implement custom concurrency control strategies beyond isolation levels.
+
 ```sql
 -- Different lock types for different use cases
 BEGIN;
@@ -248,6 +262,8 @@ COMMIT;
 
 ### Lock Strength Variations
 
+PostgreSQL offers multiple lock strengths to match different concurrency requirements. Understanding when to use each lock type helps optimize application performance while maintaining data integrity.
+
 ```sql
 -- FOR NO KEY UPDATE: Less restrictive than FOR UPDATE
 BEGIN;
@@ -274,6 +290,8 @@ FOR UPDATE SKIP LOCKED;
 ```
 
 ### Lock Monitoring
+
+Monitoring lock activity is essential for diagnosing performance issues and understanding system behavior under load. PostgreSQL provides comprehensive views for analyzing lock patterns and identifying bottlenecks.
 
 ```sql
 -- Monitor current locks
@@ -321,6 +339,8 @@ WHERE NOT blocked_locks.granted;
 
 ### Application-Level Coordination
 
+Advisory locks enable application-level coordination without table or row locking. These named locks allow distributed applications to coordinate activities and prevent conflicting operations across multiple sessions.
+
 ```sql
 -- Advisory locks for application-level coordination
 -- Useful for preventing duplicate processing, coordinating batch jobs, etc.
@@ -351,6 +371,8 @@ SELECT pg_advisory_unlock(54321);
 ```
 
 ### Advisory Lock Patterns
+
+Common advisory lock patterns include resource allocation, batch job coordination, and preventing duplicate work. These patterns demonstrate how advisory locks solve real-world concurrency challenges in distributed systems.
 
 ```sql
 -- Session-based advisory locks (automatically released on session end)
@@ -400,6 +422,8 @@ ORDER BY objid, pid;
 
 ### Understanding Deadlocks
 
+Deadlocks occur when transactions wait for each other in a circular pattern, creating an unresolvable dependency. PostgreSQL automatically detects and resolves deadlocks by aborting one of the participating transactions.
+
 ```sql
 -- Create scenario for deadlock demonstration
 CREATE TABLE resource_a (id INTEGER PRIMARY KEY, value TEXT);
@@ -428,6 +452,8 @@ UPDATE resource_a SET value = 'Also modified by Session 2' WHERE id = 1; -- Dead
 ```
 
 ### Deadlock Prevention Strategies
+
+Preventing deadlocks requires consistent ordering of resource access and careful application design. These strategies help minimize deadlock occurrences and improve system reliability under concurrent load.
 
 ```sql
 -- Strategy 1: Consistent lock ordering
@@ -475,6 +501,8 @@ SELECT transfer_money_safe(2, 1, 50); -- No deadlock!
 
 ### Deadlock Monitoring
 
+Monitoring deadlock patterns helps identify systemic issues and optimize application logic. Regular analysis of deadlock logs reveals problematic query patterns and resource contention points.
+
 ```sql
 -- Enable deadlock logging
 -- In postgresql.conf: log_lock_waits = on, deadlock_timeout = 1s
@@ -508,6 +536,8 @@ $$ LANGUAGE plpgsql;
 ## Performance Implications of Concurrency
 
 ### Lock Contention Analysis
+
+Analyzing lock contention patterns reveals system bottlenecks and helps optimize concurrent workloads. Understanding which resources create contention guides both schema design and application architecture decisions.
 
 ```sql
 -- Monitor lock waits and contention
@@ -551,6 +581,8 @@ ORDER BY wait_count DESC, avg_wait_seconds DESC;
 ```
 
 ### MVCC Maintenance
+
+MVCC requires periodic maintenance to remove obsolete row versions and update visibility maps. Understanding vacuum processes and tuple visibility is crucial for maintaining optimal performance in high-transaction environments.
 
 ```sql
 -- Monitor transaction age and long-running transactions
@@ -607,6 +639,8 @@ ORDER BY size_bytes DESC;
 
 ### Connection Pooling Considerations
 
+Connection pooling affects transaction behavior and lock duration. Understanding how pooling modes interact with transaction boundaries helps optimize both resource usage and concurrency patterns.
+
 ```sql
 -- Prepare statements for pooled connections
 PREPARE transfer_stmt (INTEGER, INTEGER, NUMERIC) AS
@@ -633,6 +667,8 @@ FROM pg_prepared_statements;
 ```
 
 ### Optimistic vs Pessimistic Locking
+
+Choosing between optimistic and pessimistic locking strategies depends on contention patterns and application requirements. Each approach offers different trade-offs between concurrency, complexity, and consistency guarantees.
 
 ```sql
 -- Optimistic locking with version numbers

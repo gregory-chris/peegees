@@ -37,6 +37,8 @@ CHECK (VALUE ~ '^\+1-\d{3}-\d{3}-\d{4}$' OR VALUE ~ '^\(\d{3}\) \d{3}-\d{4}$');
 
 ### Domain Usage in Tables
 
+Once domains are defined, they can be used just like any built-in data type in table definitions. This ensures consistent validation and constraints across all tables that use the domain.
+
 ```sql
 -- Use domains in table definitions
 CREATE TABLE customers (
@@ -64,6 +66,8 @@ INSERT INTO customers (email, phone, ssn) VALUES
 ```
 
 ### Domain Management
+
+Domains can be modified after creation by adding or removing constraints. PostgreSQL provides system views to inspect domain definitions and their constraints.
 
 ```sql
 -- Alter domain constraints
@@ -94,6 +98,8 @@ WHERE domain_name = 'email_type';
 ## Advanced Check Constraints
 
 ### Complex Business Rules
+
+Check constraints can enforce sophisticated business logic by involving multiple columns and using functions. These constraints ensure data integrity at the database level, preventing invalid states regardless of application logic.
 
 ```sql
 -- Multi-column check constraints
@@ -148,6 +154,8 @@ CHECK (validate_order_timing(order_date, ship_date, status));
 
 ### Conditional Constraints
 
+Conditional constraints use boolean logic to enforce rules that depend on the values of other columns. These are particularly useful for implementing business rules that vary based on context or state.
+
 ```sql
 -- Constraints based on other column values
 CREATE TABLE employees (
@@ -183,6 +191,8 @@ CREATE TABLE employees (
 
 ### Non-Overlapping Ranges
 
+Exclusion constraints prevent overlapping values using specialized index types like GiST. They're particularly powerful for temporal data, spatial data, and resource scheduling where conflicts must be avoided.
+
 ```sql
 -- Install btree_gist for advanced exclusion constraints
 CREATE EXTENSION IF NOT EXISTS btree_gist;
@@ -213,6 +223,8 @@ INSERT INTO room_bookings (room_id, user_id, booking_period, purpose) VALUES
 ```
 
 ### Advanced Exclusion Examples
+
+Exclusion constraints can combine multiple columns and operators to enforce complex non-overlap rules. They're essential for scheduling systems, resource allocation, and preventing data conflicts.
 
 ```sql
 -- Employee scheduling - no double booking
@@ -250,6 +262,8 @@ CREATE TABLE ip_allocations (
 ## Table Inheritance
 
 ### Basic Inheritance
+
+Table inheritance allows child tables to inherit columns and constraints from parent tables. This is useful for modeling hierarchical data structures while maintaining referential integrity and shared behavior.
 
 ```sql
 -- Base table for all vehicles
@@ -293,6 +307,8 @@ CREATE TABLE motorcycles (
 
 ### Inheritance Queries
 
+Querying inherited tables can target specific child tables or query across the entire inheritance hierarchy. PostgreSQL provides flexible options for accessing inherited data with ONLY keyword for precise control.
+
 ```sql
 -- Insert data into inherited tables
 INSERT INTO cars (make, model, year, vin, doors, transmission) VALUES 
@@ -335,6 +351,8 @@ FROM trucks;
 
 ### Inheritance Constraints and Indexes
 
+Constraints on parent tables are inherited by children, but indexes must be created separately for each table. This gives fine-grained control over performance optimization while maintaining data integrity.
+
 ```sql
 -- Add constraint to base table affects all children
 ALTER TABLE vehicles ADD CONSTRAINT valid_make 
@@ -354,6 +372,8 @@ CHECK (year >= 2010);
 ## Declarative Partitioning
 
 ### Range Partitioning
+
+Range partitioning divides data based on column value ranges, making it ideal for time-series data, numerical ranges, or any ordered data. Each partition contains rows where the partition key falls within a specific range.
 
 ```sql
 -- Partitioned table for time-series data
@@ -391,6 +411,8 @@ CREATE TABLE sales_data_default PARTITION OF sales_data DEFAULT;
 
 ### Hash Partitioning
 
+Hash partitioning distributes data evenly across partitions using a hash function. This approach is ideal when you want balanced partition sizes but don't have a natural range-based partition key.
+
 ```sql
 -- Hash partitioning for even distribution
 CREATE TABLE user_sessions (
@@ -420,6 +442,8 @@ FOR VALUES WITH (modulus 4, remainder 3);
 
 ### List Partitioning
 
+List partitioning assigns rows to partitions based on specific values in the partition key. This is perfect for categorical data like regions, status codes, or any discrete set of values.
+
 ```sql
 -- List partitioning by region
 CREATE TABLE customer_data (
@@ -446,6 +470,8 @@ CREATE TABLE customer_data_other PARTITION OF customer_data DEFAULT;
 ```
 
 ### Multi-Level Partitioning
+
+Multi-level partitioning creates a hierarchy of partitions, first partitioning by one key, then sub-partitioning by another. This provides extremely granular data organization for complex queries and maintenance operations.
 
 ```sql
 -- Multi-level partitioning: first by date, then by region
@@ -490,6 +516,8 @@ FOR VALUES IN ('UK', 'DE', 'FR', 'IT', 'ES');
 
 ### Automated Partition Creation
 
+Automated partition creation uses functions and triggers to dynamically create new partitions as needed. This approach eliminates manual maintenance for growing datasets and ensures partitions exist before data arrives.
+
 ```sql
 -- Function to create monthly partitions
 CREATE OR REPLACE FUNCTION create_monthly_partition(
@@ -523,6 +551,8 @@ FROM generate_series(0, 5) n;
 
 ### Partition Pruning Verification
 
+Partition pruning is PostgreSQL's optimization that eliminates irrelevant partitions from query execution plans. EXPLAIN helps verify that queries are properly taking advantage of partitioning for optimal performance.
+
 ```sql
 -- Check partition pruning with EXPLAIN
 EXPLAIN (COSTS OFF, BUFFERS OFF) 
@@ -544,6 +574,8 @@ WHERE tablename LIKE 'sales_data_%'
 ## Best Practices for Schema Design
 
 ### Constraint Strategy
+
+A comprehensive constraint strategy combines domains, check constraints, and exclusion constraints to create robust data integrity. This example demonstrates how different constraint types work together in a real-world application.
 
 ```sql
 -- Comprehensive example combining all constraint types
@@ -629,6 +661,8 @@ CREATE TRIGGER trigger_update_orders_updated_at
 ```
 
 ### Performance Considerations
+
+Performance optimization for constrained and partitioned tables requires strategic indexing and constraint design. Proper indexes on partition keys and frequently queried columns are essential for optimal query performance.
 
 ```sql
 -- Indexing strategy for partitioned tables

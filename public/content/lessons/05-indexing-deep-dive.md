@@ -39,6 +39,8 @@ CREATE INDEX idx_customer_orders_status ON customer_orders (status);
 
 ### Multi-Column B-tree Indexes
 
+Multi-column indexes can dramatically improve performance for queries involving multiple columns, but column order is crucial. The index is most effective when query conditions follow the same order as the index columns.
+
 ```sql
 -- Composite indexes - column order matters!
 CREATE INDEX idx_customer_orders_compound_1 ON customer_orders (customer_id, order_date);
@@ -63,6 +65,8 @@ GROUP BY customer_id;
 ```
 
 ### Partial Indexes
+
+Partial indexes only include rows that meet specific conditions, reducing index size and maintenance overhead. They're particularly useful for queries that frequently filter on the same conditions or for sparse data scenarios.
 
 ```sql
 -- Partial indexes for specific conditions
@@ -94,6 +98,8 @@ ORDER BY pg_relation_size(indexname::regclass) DESC;
 
 ### Expression Indexes
 
+Expression indexes allow indexing on computed values or function results rather than raw column values. This enables efficient queries on calculations, transformations, or complex expressions that would otherwise require full table scans.
+
 ```sql
 -- Indexes on expressions
 CREATE INDEX idx_customer_orders_month ON customer_orders (EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date));
@@ -120,6 +126,8 @@ GROUP BY customer_id;
 ## Hash Indexes
 
 ### When to Use Hash Indexes
+
+Hash indexes are optimized for equality comparisons and can be faster than B-tree indexes for exact matches on high-cardinality columns. However, they don't support range queries or sorting operations.
 
 ```sql
 -- Hash indexes for equality lookups
@@ -155,6 +163,8 @@ SELECT * FROM user_sessions WHERE user_id > 5000;
 ## GIN Indexes: Generalized Inverted Indexes
 
 ### Array and JSONB Indexing
+
+GIN indexes excel at indexing complex data types like arrays and JSONB documents. They enable fast containment, overlap, and existence queries on these multi-valued structures that would be impossible to index efficiently with traditional methods.
 
 ```sql
 -- Setup tables for GIN examples
@@ -194,6 +204,8 @@ CREATE INDEX idx_product_fts_gin ON product_catalog USING GIN (full_text_search)
 ```
 
 ### GIN Query Patterns
+
+GIN indexes support various operators for array and JSONB queries, each optimized for different use cases. Understanding these patterns helps choose the right approach for complex data retrieval operations.
 
 ```sql
 -- Array containment queries
@@ -236,6 +248,8 @@ ORDER BY rank DESC;
 
 ### Advanced GIN Usage
 
+Advanced GIN techniques include path-specific indexing for JSONB and custom operator classes. These approaches optimize specific query patterns and can significantly improve performance for complex data structures.
+
 ```sql
 -- GIN with custom operator classes
 CREATE INDEX idx_product_specs_path_gin ON product_catalog 
@@ -260,6 +274,8 @@ WHERE tags @> ARRAY['electronics']
 ## GiST Indexes: Generalized Search Tree
 
 ### Geometric and Range Data
+
+GiST indexes are ideal for geometric data types, range types, and full-text search. They support nearest-neighbor searches, overlap detection, and containment queries that are essential for spatial and temporal applications.
 
 ```sql
 -- Setup for GiST examples
@@ -287,6 +303,8 @@ CREATE INDEX idx_geo_period_gist ON geo_locations USING GiST (active_period);
 ```
 
 ### GiST Query Examples
+
+GiST queries demonstrate the power of spatial and range operations. These examples show how GiST indexes enable efficient geographic searches, temporal overlaps, and nearest-neighbor calculations.
 
 ```sql
 -- Proximity queries
@@ -317,6 +335,8 @@ WHERE coverage_area @> POINT(40.7600, -73.9850);
 
 ### Text Search with GiST
 
+GiST indexes can also support full-text search operations, providing an alternative to GIN indexes with different performance characteristics. GiST is typically better for phrase searches and when index size is a concern.
+
 ```sql
 -- GiST for full-text search (alternative to GIN)
 CREATE INDEX idx_product_fts_gist ON product_catalog USING GiST (full_text_search);
@@ -334,6 +354,8 @@ LIMIT 5;
 ## BRIN Indexes: Block Range Indexes
 
 ### Large Table Optimization
+
+BRIN indexes are designed for very large tables where data has natural ordering or clustering. They provide space-efficient indexing for range queries on sorted or partially sorted data, with minimal storage overhead.
 
 ```sql
 -- BRIN indexes for very large tables with natural ordering
@@ -378,6 +400,8 @@ GROUP BY sensor_id;
 
 ### BRIN Maintenance
 
+BRIN indexes require periodic maintenance to stay effective as data changes. Understanding when to summarize ranges and how autovacuum affects BRIN performance is crucial for maintaining query efficiency.
+
 ```sql
 -- BRIN indexes need periodic summarization
 SELECT brin_summarize_new_values('idx_timeseries_timestamp_brin');
@@ -404,6 +428,8 @@ WHERE tablename = 'time_series_data';
 ## SP-GiST Indexes: Space-Partitioned GiST
 
 ### Specialized Data Structures
+
+SP-GiST indexes handle specialized data structures like quad-trees, k-d trees, and radix trees. They're particularly effective for non-balanced tree structures and can outperform other index types for specific data patterns.
 
 ```sql
 -- SP-GiST for specific data types
@@ -436,6 +462,8 @@ WHERE ip_address << '192.168.0.0/16'::INET;
 
 ### Include Non-Key Columns
 
+Covering indexes include additional columns in the leaf pages, enabling index-only scans for queries that need both indexed and non-indexed columns. This reduces I/O by avoiding table lookups for covered queries.
+
 ```sql
 -- Covering indexes to avoid table lookups
 CREATE INDEX idx_customer_orders_covering ON customer_orders (customer_id, order_date) 
@@ -462,6 +490,8 @@ WHERE customer_id = 123;
 ## Index Maintenance and Monitoring
 
 ### Index Usage Statistics
+
+Monitoring index usage statistics helps identify unused indexes that consume space and maintenance overhead, as well as missing indexes that could improve performance. Regular analysis of these statistics is essential for index optimization.
 
 ```sql
 -- Monitor index usage
@@ -513,6 +543,8 @@ ORDER BY size_bytes DESC;
 
 ### Index Maintenance Operations
 
+Regular index maintenance includes rebuilding fragmented indexes, analyzing statistics, and cleaning up unused indexes. These operations ensure optimal performance and prevent index bloat from degrading query performance.
+
 ```sql
 -- Rebuild bloated indexes
 REINDEX INDEX idx_customer_orders_customer_id;
@@ -538,6 +570,8 @@ WHERE c.relname LIKE 'idx_customer_orders%';
 ## Index Strategy Guidelines
 
 ### Choosing the Right Index Type
+
+Selecting the appropriate index type depends on data characteristics, query patterns, and performance requirements. This decision matrix helps choose between B-tree, Hash, GIN, GiST, BRIN, and SP-GiST indexes based on specific use cases.
 
 ```sql
 -- Decision matrix for index types
@@ -580,6 +614,8 @@ $$ LANGUAGE plpgsql;
 
 ### Index Best Practices
 
+Effective index management follows established patterns for creation, maintenance, and optimization. These best practices help avoid common pitfalls and ensure indexes provide maximum benefit with minimal overhead.
+
 ```sql
 -- Comprehensive indexing strategy
 CREATE TABLE best_practices_example (
@@ -615,6 +651,8 @@ INCLUDE (email, created_at);
 ## Query Plan Analysis
 
 ### Understanding Index Usage
+
+Query plan analysis reveals how PostgreSQL uses indexes and identifies optimization opportunities. Understanding EXPLAIN output helps fine-tune indexes and query patterns for optimal performance.
 
 ```sql
 -- Analyze query plans for index effectiveness
