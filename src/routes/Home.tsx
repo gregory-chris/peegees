@@ -53,7 +53,7 @@ export default function Home() {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-16 lg:py-24">
+      <section className="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-8 lg:py-8">
         <Container>
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
@@ -89,16 +89,8 @@ export default function Home() {
       </section>
 
       {/* Lessons Section */}
-      <section id="lessons" className="py-16 lg:py-24">
+      <section id="lessons" className="py-8 lg:py-12">
         <Container>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Course Lessons
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Master PostgreSQL through hands-on lessons covering everything from architecture to production best practices.
-            </p>
-          </div>
 
           <div className="grid gap-6 md:gap-8">
             {manifest.lessons.map((lesson) => (
@@ -115,7 +107,12 @@ export default function Home() {
                   
                   <div className="flex-1 min-w-0">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      <a
+                        href={`/lesson/${lesson.slug}`}
+                        className=" hover:text-blue-700"
+                      >
                       {lesson.title}
+                      </a>
                     </h3>
                     
                     <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
@@ -147,15 +144,6 @@ export default function Home() {
                         </div>
                       )}
                     </div>
-                  </div>
-                  
-                  <div className="flex-shrink-0">
-                    <a
-                      href={`/lesson/${lesson.slug}`}
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                    >
-                      Read Lesson
-                    </a>
                   </div>
                 </div>
               </div>
